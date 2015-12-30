@@ -26,7 +26,7 @@ This proposal attempts to resolve this.
 
 ==Definitions==
 
-We define a Decentralized Improvement Proposal (DIP) as a 42-80 byte data structure consisting of the following fields:
+We define a Decentralized Improvement Proposal (DIP) as a 41-80 byte data structure consisting of the following fields:
 
 * Magic string (3 bytes): The ASCII characters 'D', 'I', 'P', used to identify the structure as a DIP
 * Forward-Compatibility-Indicator (FCI) (1 byte): A byte defining the forward compatibility of code that has not implemented the DIP with respect to blocks generated after DIP-switch (see below). The following values are defined:
@@ -37,7 +37,8 @@ We define a Decentralized Improvement Proposal (DIP) as a 42-80 byte data struct
 ** If the resource is in text/html format, the resource MAY reference auxilary resources (scripts/syles), however the full specification MUST be included in the main resource.
 ** The specification MUST include or contain a reference to source code that implements and tests the change.
 ** The specification MAY NOT change. If changes are made to the specification, the proposal is to be treated as a new DIP.
-
+* Padding: If the total size of the 4 fields is less then 41 bytes it MUST be padded with 0s to the size of 41 bytes
+ 
 We define a *Block indicating support for a DIP* as a block that includes a transaction that includes an output script consisting of OP_RETURN and a DIP.
 
 We define an "upcoming DIP-switch" as a block, for which including the block itself, the last 1000 blocks contain exactly 950 blocks which indicate support for a DIP.
@@ -70,4 +71,9 @@ As this change in itself may result in changes that are not forward compatible (
 
 To be done
 
+==Notes==
+
+# This proposal supercedes the concept of block versions. The version of a block should be determined by the existence of DIP-switches in the blockchain.
+# It may serve purpose to add bits to the DIP to indicate what parts of the protocol have been changed. Suggestions are welcome.
+# The indication of support through an OP_RETURN script is a first suggestion. As other people may have more intricate knowledge of the protocol, suggestions for a better place to put this are welcome.
 
