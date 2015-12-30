@@ -38,7 +38,7 @@ We define a Decentralized Improvement Proposal (DIP) as a 41-80 byte data struct
 ** The specification MUST include or contain a reference to source code that implements and tests the change.
 ** The specification MAY NOT change. If changes are made to the specification, the proposal is to be treated as a new DIP.
 * Padding: If the total size of the 4 fields is less then 41 bytes it MUST be padded with 0s to the size of 41 bytes
- 
+
 We define a *Block indicating support for a DIP* as a block that includes a transaction that includes an output script consisting of OP_RETURN and a DIP.
 
 We define an "upcoming DIP-switch" as a block, for which including the block itself, the last 1000 blocks contain exactly 950 blocks which indicate support for a DIP.
@@ -60,7 +60,7 @@ Any node that supports mining MUST implement:
 
 # A mining node MAY generate and broadcast a Block indicating support for one or more DIPs ONLY IF it has fully implemented and tested the implementation of the DIPs according to the Specification-URL of the DIPs. The change for each DIP MUST be triggered only after the DIP-switch.
 # A mining node SHOULD implement a configration option such that a user can disable or enable DIPs that the implementation supports.
-# A miner MAY NOT generate or relay blocks that include support for DIP after the DIP-switch for that DIP.
+# A miner node MAY NOT generate or relay blocks that include support for DIP after the DIP-switch for that DIP.
 
 
 ==Forward compatibility==
