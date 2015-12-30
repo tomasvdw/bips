@@ -1,0 +1,73 @@
+<pre>
+  BIP: ?
+  Title: Decentralized Improvement Proposals for the Bitcoin protocol
+  Author: Tomas van der Wansem <tomas@tomasvdw.nl>
+  Status: Draft
+  Type: Standards Track
+  Created: 2015-12-28
+</pre>
+
+==Abstract==
+
+Many different propasals are being made to improve the bitcoin protocol. This proposal specifies a standardized way for different implementations to amend or change the rules of the protocol with minimal risk.
+
+==Motivation==
+
+The current method of changing the protocol is through sequential updates of the reference implementation. These updates are guarded by a threshold (BIP34) to minimize risk. A proposal is being implemented (version bits) that would allow multiple different changes to be scheduled in parallel.
+
+
+The current limitation is that all change proposals must pass through the develepment process of the reference implementation.
+
+The disadvtange of this centralization has become evident: The only method that other implementors have to make changes to the protocol, is to apply these changes in their implementations without consent of other implementations. '''Even if these changes are guarded by an activation threshold, other implementation may not be aware of the change which may cause an effective split of the blockchain.'''
+
+For this reason, such changes outside the reference implementation are in its current form dangerous and dubbed "contention". 
+
+This proposol attempts to resolve this.
+
+==Definitions==
+
+We define a Decentralized Improvement Proposal (DIP) as a 42-80 byte data structure consisting of the following fields:
+
+* Magic string (3 bytes): The ASCII characters 'D', 'I', 'P', used to identify the structure as a DIP
+* Forward-Compatibility-Indicator (FCI) (1 byte): A byte defining the forward compatibility of code that has not implemented the DIP with respect to blocks generated after DIP-switch (see below). The following values are defined:
+*# The DIP is partially forward compatible. Even after the DIP-switch (see below), nodes not supporting this DIP MAY broadcast and relay transactions and blocks. Nodes MAY NOT assume that they are fully validating.
+*# The DIP is not forward compatible. After the DIP-switch, nodes not supporting the DIP MAY NOT connect to other bitcoin nodes.
+* CRC (4 bytes): The CRC32 value of the body of the main resource referenced by the Specification-URL.
+* Specificaion-URL (max 72 bytes): A URL referencing a resource with content-type text/plain or text/html containing the full motivation and specification for implentation of the proposed change.
+** If the resource is in text/html format, the resource MAY reference auxilary resources (scripts/syles), however the full specification MUST be included in the main resource.
+** The specification MUST contain a reference to source code that implements and tests the change.
+** The specification MAY NOT change. If changes are made to the specification, the proposal is to be treated as a new DIP.
+
+We define a *Block indicating support for a DIP* as a block that includes a transaction that includes an output script consisting of OP_RETURN and a DIP.
+
+We define an "upcoming DIP-switch" as a block, for which including the block itself, the last 1000 blocks contain exactly 950 blocks which indicate support for a DIP.
+ 
+We define a "DIP-switch" as block that has a block height of 10000 more then an upcoming DIP-switch.
+
+==Specification==
+
+Any node MUST implement:
+
+# When the node receives an upcoming DIP-switch for a DIP that has not been fully implemented or tested it MUST warn the user.
+# A node MAY NOT relay transactions containing a DIP (but of course must relay blocks containing transactions contain a DIP)
+# When a node receives a DIP-switch for a FCI-1 DIP it has not fully implemented and tested, it MUST warn the user and it MAY NOT rely on fully validating transactions.
+# When a node receives a DIP-switch for a FCI-2 DIP it has not fully implemented and tested, it MUST disconnect from the network and it MAY NOT reconnect to the network again.
+# A node SHOULD provide an interface to the user to indicate the current status of different DIPs found in the blockchain
+
+
+Any node that supports mining MUST implement:
+
+# A mining node MAY generate and broadcast a Block indicating support for one or more DIPs ONLY IF it has fully implemented and tested the implementation of the DIPs according to the Specification-URL of the DIPs. The change for each DIP MUST be triggered only after the DIP-switch.
+# A mining node SHOULD implement a configration option such that a user can disable or enable DIPs that the implementation supports.
+# A miner MAY NOT generate or relay blocks that include support for DIP after the DIP-switch for that DIP.
+
+
+==Forward compatibility==
+
+As this change in itself may result in changes that are not forward compatible (FCI-2), it is a FCI-2 DIP. Support may be indicated in a block by including the DIP for the final version of this proposal (Status: Final)
+
+==Implementation==
+
+To be done
+
+
