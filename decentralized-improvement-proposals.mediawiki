@@ -9,7 +9,7 @@
 
 ==Abstract==
 
-Many different propasals are being made to improve the bitcoin protocol. This proposal specifies a standardized way for different implementations to amend or change the rules of the protocol with minimal risk.
+Many different proposals are being made to improve the bitcoin protocol. This proposal specifies a standardized way for different implementations to amend or change the rules of the protocol with minimal risk.
 
 ==Motivation==
 
