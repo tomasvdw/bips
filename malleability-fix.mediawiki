@@ -32,15 +32,12 @@ This BIP will be deployed by "version bits" BIP9. Bit and start dates TBD.
 
 == Alternatives ==
 
-* SegWit BIP 141 [2] also fixes malleability. It has the drawback that it fixes many things at once, which may make it difficult to reach consensus. For example, 
-it introduces new limits that are difficult to reconcile with the Unlimited variants.
-
-* Flexible Transactions [3] also fixes malleability. It has the drawback of introducing a new serialization format, which means that every software will need to 
-support two very different formats indefinitely. This may be a high price to pay.
+* SegWit BIP 141 [2] also fixes malleability. It has the drawback that it fixes many things at once, which may make it difficult to reach consensus. For example, it introduces new limits that are difficult to reconcile with the Unlimited variants.
+* Flexible Transactions [3] also fixes malleability. It has the drawback of introducing a new serialization format, which means that every software will need to support two very different formats indefinitely. This may be a high price to pay.
 
 
 ==References==
 
-[1] https://en.bitcoin.it/wiki/Transaction_Malleability
-[2] https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
-[3] https://zander.github.io/posts/Flexible_Transactions/
+* [1] https://en.bitcoin.it/wiki/Transaction_Malleability
+* [2] https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
+* [3] https://zander.github.io/posts/Flexible_Transactions/
