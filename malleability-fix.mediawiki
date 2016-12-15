@@ -16,15 +16,16 @@ The advantages of creating non-malleable transactions are well known and discuss
 
 ==Definitions==
 
-Given a transaction, we remove all input scripts including their length prefix. The double SHA256 of the remaining data
-shall be called the immutable transaction ID (ITXID) of the transaction.
+ITXID - Immutable Transaction ID: The double SHA256 taken from a transaction after stripping it of all input scripts including their length prefixes.
 
 ==Specification==
 
 If a transaction has its version field set to 2 or higher, any previous-tx field of any transaction that references it
 must use the ITXID of the transaction in the previous-tx field instead of the TXID.
 
-The TXID is only used in the previous-tx field if it points to a version 1 transaction and for construction of the merkle tree.
+The TXID is still used in the previous-tx field if it points to a version 1 transaction and for construction of the merkle tree.
+
+The TXID is also still passed in INV messages.
 
 == Deployment ==
 
