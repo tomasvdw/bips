@@ -28,22 +28,17 @@ To counter this drawback, I propose a way for miners to flag non-confirming bloc
 
 == Specification ==
 
-We define bit 29 of the 32-bits little endian version field in the block header as 
-the non-confirming bit.
+We define bit 29 of the 32-bits little endian version field in the block header as the non-confirming bit.
 
-Any block that is published without fully verifying the previous block should set
-the non-confirming bit.
+Any block that is published without fully verifying the previous block should set the non-confirming bit.
 
-=== Comments ===
+== Comments ==
 
 An optimal miner will:
 
-* As soon a blockheader is downloaded, mine upon with only a coinbase and the
-non-confirming bit set.
-* As soon as all TXIDs are known, mine upon it with a mempool selection 
-and the non-confirming bit set.
-* As soon as all transactions are fully verified, mine upon it with a mempool selection
- and the non-confirming bit cleared.
+* As soon a blockheader is downloaded, mine upon with only a coinbase and the non-confirming bit set.
+* As soon as all TXIDs are known, mine upon it with a mempool selection and the non-confirming bit set.
+* As soon as all transactions are fully verified, mine upon it with a mempool selection  and the non-confirming bit cleared.
 
 Any software relying on transaction security should not count blocks with the
 non-confirming bit set as confirmations, unless blocks are received upon it
