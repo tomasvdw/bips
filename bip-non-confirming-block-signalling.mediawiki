@@ -1,0 +1,56 @@
+<pre>
+  BIP: unassigned
+  Layer: Peer Services
+  Title: Non-confirming block signalling
+  Author: Tomas van der Wansem <tomas@bitcrust.org>
+  Status: Draft
+  Type: Standards Track
+  Created: 2017-05-05
+  License: PD
+</pre>
+
+== Abstract ==
+
+This BIP describes a standard method for publishing blocks that do not confirm validity
+of the previous block. 
+
+== Motivation ==
+
+Miners today use a method commonly known as SPV-mining. They start mining on top of a 
+block as soon as they receive the headers, before they downloaded or verified the 
+transactions. This not only increases their own profit but also helps against 
+decentralization as it diminishes the advantage of miners with high resources.
+
+The drawback is that it decreases the security of the network, as users will perceive
+such a block as a confirmation of the validity of the previous block.
+
+To counter this drawback, I propose a way for miners to flag non-confirming blocks.
+
+== Specification ==
+
+We define bit 29 of the 32-bits little endian version field in the block header as 
+the non-confirming bit.
+
+Any block that is published without fully verifying the previous block should set
+the non-confirming bit.
+
+=== Comments ===
+
+An optimal miner will:
+
+* As soon a blockheader is downloaded, mine upon with only a coinbase and the
+non-confirming bit set.
+* As soon as all TXIDs are known, mine upon it with a mempool selection 
+and the non-confirming bit set.
+* As soon as all transactions are fully verified, mine upon it with a mempool selection
+ and the non-confirming bit cleared.
+
+Any software relying on transaction security should not count blocks with the
+non-confirming bit set as confirmations, unless blocks are received upon it
+which have the non-confirming bit cleared.
+
+This proposals removes the 29th softfork-version as defined in BIP 9.
+
+==Copyright==
+This document is placed in the public domain.
+
