@@ -46,6 +46,11 @@ which have the non-confirming bit cleared.
 
 This proposals removes the 29th softfork-version as defined in BIP 9.
 
+== Reference ==
+
+It was pointed out to me that this BIP is duplicate with a proposal by Gregory Maxwell:
+https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2015-December/011853.html
+
 ==Copyright==
 This document is placed in the public domain.
 
