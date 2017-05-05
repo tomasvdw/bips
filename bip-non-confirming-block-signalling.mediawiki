@@ -18,7 +18,7 @@ of the previous block.
 
 Miners today use a method commonly known as SPV-mining. They start mining on top of a 
 block as soon as they receive the headers, before they downloaded or verified the 
-transactions. This not only increases their own profit but also helps against 
+transactions. This not only increases their own profit but also helps  
 decentralization as it diminishes the advantage of miners with high resources.
 
 The drawback is that it decreases the security of the network, as users will perceive
