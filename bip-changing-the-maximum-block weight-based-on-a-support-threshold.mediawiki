@@ -1,0 +1,93 @@
+<pre>
+BIP: unassigned
+Layer: Peer Services
+Title: Changing the maximum block weight based on a support threshold 
+Author: Tomas van der Wansem <tomas@bitcrust.org>
+Status: draft
+Type: Standards Track
+License: PD
+</pre>
+
+
+==Abstract==
+
+This proposal allows nodes to be configured to change their block weight limit when a support threshold is reached.
+
+
+==Motivation==
+
+There is some demand in the community to change the max_block_weight to allow more throughput. There
+are also recognized risks. 
+
+Miners risk their blocks being rejected by economic nodes if they increase it, and 
+all users risk a chain split if it is changed without miner support.
+
+This proposal recognizes that there is no need for off chain agreement on the matter, and
+that every user can freely choose both the maximum acceptable value for max_block_weight as
+well as the minimum acceptable hash rate threshold for themselves.
+
+==Specification==
+
+===''max_block_weight'' calculation===
+
+To determine the ''max_block_weight'' used to verify a target block, a node will use the variables:
+
+:: ''current_limit'' is the current weight limit.
+
+:: ''new_limit'' is the maximum new weight limit that will be activated when the threshold is reached.
+
+:: ''threshold'' is the minimum percentage of supporting blocks in a difficulty period to trigger activation.
+
+These variables can be optionally configured by the user. If unspecified, a value of 4,000,000 is used for ''max_block_weight''.
+
+If set by the user, ''current_limit'' must be set to an integer at least 4,000,000, ''new_limit'' must be an integer larger then ''current_limit'' and ''threshold'' must be a multiple of 5 between 50 and 100 inclusive.
+
+For our calculation, we define a block set as a set of blocks that are ancestors of the target block in a single difficulty period at least 5 difficulty periods in the past; that is, a set of blocks before the target block with heights between '''y * 2016''' and '''(y * 2016) + 2015''' inclusive, for any non-negative integer '''y''' such that the height of the target block is larger than '''(y * 2016) + 2015 + 10080'''.
+
+Given a target block, let X,N be a number pair with the following conditions:
+
+* 2016 >= N >= ''threshold''
+* ''current_limit'' < X <= ''new_limit''
+* There exists a block set, in which at least N% of the blocks signal a ''new_limit'' equal to or larger than X and a ''threshold'' equal to or smaller than N.
+
+If no number pair X,N exists, ''current_limit'' is used as ''max_block_weight'' for the target block. Otherwise the highest value of X from all X,N pairs is used as the ''max_block_weight'' for the target block.
+
+===Signature operations and transaction size===
+
+The maximum signature operations and transaction size are limited as:
+
+:: max_block_sigops = 20,000*((max_block_size-1)/1,000,000 + 1)
+
+:: max_tx_size = 1,000,000
+
+===Coinbase and user-agent signalling===
+
+If the user overrides the default values, the values are added to the coinbase text as
+
+        "/EB<current_limit_EB>/FE<new_limit_EB>@<threshold>%/"
+
+and added to the user-agent string as
+
+        "<user-agent>(EB<current_limit_EB>;FE<new_limit_EB>@<threshold>%...)/"
+
+The variables are related as
+
+:: current_limit = current_limit_EB * 4,000,000
+
+:: new_limit = new_limit_EB * 4,000,000
+
+== Rationale ==
+
+* This proposal is compatible with BUIP056, but does not rely on the variables being elastic or emergent.
+
+* Only block sets at least 10080 blocks deep are considered to allow for an activation period in which more mining power and nodes can join.
+
+* The block set is aligned with the difficulty period to minimize the risk of a chain split. Miners are strongly disincentives to stay on the minority as it will take at least ~8 weeks before difficulty adjustment with a 75% threshold.
+
+=== Alternatives ===
+
+* BIP135 Version bit signaling can also be used to schedule based on threshold. However version bit proposals cannot individually encompass a minimum threshold or a maximum blockweight. This could be solved by using multiple proposals, but voting on multiple conflicting proposals in parallel can lead to various problems.
+
+== Copyright ==
+
+This document is placed in the public domain.
