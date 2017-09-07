@@ -1,5 +1,5 @@
 <pre>
-  BIP: ?
+  BIP: MalFix
   Title: Malleability fix
   Author: Tomas van der Wansem <tomas@tomasvdw.nl>
   Status: Draft
