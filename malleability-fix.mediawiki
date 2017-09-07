@@ -16,16 +16,15 @@ The advantages of creating non-malleable transactions are well known and discuss
 
 ==Definitions==
 
-ITXID - Immutable Transaction ID: The double SHA256 taken from a transaction after stripping it of all input scripts including their length prefixes.
+Immutable Transaction ID: The double SHA256 taken from a transaction after stripping it of all input scripts including their length prefixes.
+
+UTXID - Unspent Transaction ID: Either the Immutable Transaction ID of a transaction with version 3 or higher, or the Transaction ID of a transaction with verion 1 or 2.
 
 ==Specification==
 
-If a transaction has its version field set to 3 or higher, any previous-tx field of any transaction that references it
-must use the ITXID of the transaction in the previous-tx field instead of the TXID.
+The previous-tx field of every output of every transaction which currently contains the TXID of the transaction being spend is replaced by a UTXID of the transaction being spend.
 
-The TXID is still used in the previous-tx field if it points to a version 1 or 2 transaction and for construction of the merkle tree.
-
-The TXID is also still passed in INV messages.
+The TXID is still used in for construction of the merkle root and passed in INV messages.
 
 == Deployment ==
 
