@@ -29,7 +29,7 @@ The TXID is also still passed in INV messages.
 
 == Deployment ==
 
-This BIP will be deployed by "version bits" BIP9. Bit and start dates TBD.
+This BIP will be deployed by "version bits" BIP9, using bit 5. Start date TBD.
 
 == Alternatives ==
 
