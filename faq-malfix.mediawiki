@@ -1,0 +1,70 @@
+=FAQ - MalFix=
+
+* spec: https://github.com/tomasvdw/bips/blob/master/malleability-fix.mediawiki
+* code: https://github.com/Bitcoin-ABC/bitcoin-abc/pull/83
+
+==What is BIP-MalFix?==
+
+BIP-MalFix is a Bitcoin (Cash) improvement proposal for a small breaking change
+that allows creating non-malleable transactions
+
+==How does it work?==
+
+Currently the inputs of a transaction point the transaction they are spending
+using their TXID which is the full hash of the transaction. 
+
+With MalFix, this field is replaced by a new "UTXID" field which contains (for 
+new v3 transactions) the hash of the transaction without its input scripts. 
+
+That way, even if the signature of an off-chain transaction is malleated, 
+every dependent transaction is still valid.
+
+==How does this compare to SegWit?==
+
+===Security===
+
+Both SegWit and MalFix introduce a new non-malleable reference to a
+transaction. With MalFix, this is only used in the 'prev_tx_out' field of 
+an input. In SegWit this replaces the identifier using in the merkle tree
+and in the P2P protocol.
+
+The drawback of the SegWit solution is that it reduces long term security,
+as signatures are no longer needed to securely update the UTXO-set. 
+
+===Scope===
+
+MalFix aims to fix only malleability; a one step at the time approach that
+may be better suited in a consensus network. SegWit fixes several 
+(not uncontroversial) things on the side.
+
+===Impact===
+
+BIP-MalFix is a minimal change, but a change that effects every wallet, as 
+they need to understand the new "utxo" field in order to be able to
+spent v3 transactions.
+
+SegWit is a much more complicated change, which aims to easy the upgrade path
+as it doesn't force any other software to upgrade.
+
+In short; MalFix minimizes the impact on the base layer, whereas SegWit 
+minimized the complications of the update.
+
+==Do we need a malleability fix?==
+
+Tricky question. As a change minimalist I am not really in favour of fixing 
+malleability. It helps only the specific case of an chain multisig transaction
+with off chain dependent transactions. Although this may aid for example micropayment networks, many workarounds are possible wihtout changing the 
+base layer.
+
+But the decision isn't mine or solely technical. There is clearly a lot
+of demand for fixing malleability, not in the least because of the hype and
+expections of the Lightning Network, a micropayment implementation which
+happens to depend on it.
+
+In the end, with every change it's up to the market. If there is enough 
+demand among users, miners will want the change to increase the value
+of their minted coins. And if miners want the change, implementors can
+choose to Merge this Pull Request and offer it to gain market share.
+
+If this results in 95% of the miners signalling, the change will be activated.
+
