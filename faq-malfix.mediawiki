@@ -1,7 +1,7 @@
 =FAQ - MalFix=
 
 * spec: https://github.com/tomasvdw/bips/blob/master/malleability-fix.mediawiki
-* code [wip]: https://github.com/Bitcoin-ABC/bitcoin-abc/pull/83
+* code [wip]: https://github.com/Bitcoin-ABC/bitcoin-abc/pull/87
 
 ==What is BIP-MalFix?==
 
