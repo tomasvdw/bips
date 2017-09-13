@@ -41,7 +41,7 @@ may be better suited in a consensus network. SegWit fixes several
 
 BIP-MalFix is a minimal change, but a change that effects every wallet, as 
 they need to understand the new "utxo" field in order to be able to
-spent v3 transactions.
+spend v3 transactions.
 
 SegWit is a much more complicated change, which aims to ease the upgrade path
 as it doesn't force any other software to upgrade.
