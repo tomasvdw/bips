@@ -79,7 +79,7 @@ Note that the serialization is not compressed, but compression can be used in tr
 
 The UTXO commitment for a certain block is the commitment of all UTXO elements that are unspent in the blockchain ''after'' that block.
 
-=== FixMe ===
+== FixMe ==
 
 The tree as specified requires the elements to approximate a random distribution. The UTXO elements are unfortunately not, as a single 
 transaction with lots of outputs all share the same first 32 bytes. There are several solutions from which we must choose:
@@ -88,8 +88,24 @@ transaction with lots of outputs all share the same first 32 bytes. There are se
 * We can replace the threshold for splitting a branch node to state that a leaf node must contain 2000 elements ''or'' its parent must contain at most 16000 elements
 * We can add UTXO elements as specified but *count* only distinct transaction ids.
 
-=== Implementation ===
+== Implementation ==
+
+Proposed implementation of the Elliptic Curve Multiset: https://github.com/bitcoin-core/secp256k1/pull/477
+
+Proposed implementation of the UTXO commitment: https://github.com/tomasvdw/bitcoin-abc/tree/utxocommit/src/utxocommit
+
+=== Results ===
+
+Implementation results (Core i7 2 core 2.4ghz):
+
+* Initial load 50 million elements: 310 secs.
+* Memory 50 million elements: 2.2mb
+* Proof size: ~100kb
+* Add block (10,000 utxo-ops): ms
+
+The vast majority of time is spend in the rudimentary multiset implementation which I hope can be further optimized.
 
 ==Copyright==
+
 This document is placed in the public domain.
 
