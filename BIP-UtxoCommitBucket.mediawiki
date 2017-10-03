@@ -48,7 +48,8 @@ We define:
 * The ''hash'' of a leaf node is the 32-byte ECMH multiset hash of each of the elements it contains.
 * The ''hash'' of a branch node is the 32-byte double-SHA256 of the concatenation of the 16 hashes of its child nodes.
 
-Now, we define the tree to be ''normalized'' if:
+Now, we define the tree to be normalized if:
+
 * Each branch node is either the root node, or contains at least 2001 elements.
 * Each leaf node contains at most 2000 elements.
 
@@ -66,6 +67,8 @@ We define a UTXO element as the byte sequence contructed from an unspent output 
 | 32 || txid || char[32] || The id of the transaction
 |-
 | 4 || index || uint32_t || The index of the output within the transaction
+|-
+| 4 || height_is coinbase || uint32_t || The least signaficant bit is set if this is a coinbase output. The other 31 bits represent the height
 |-
 | 8 || value || int64_t || The amount in satoshi
 |-
