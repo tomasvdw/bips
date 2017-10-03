@@ -1,0 +1,92 @@
+<pre>
+  BIP: UtxoCommitBucket
+  Title: Bucketed Utxo Commitment
+  Author: Tomas van der Wansem <tomas@bitcrust.org>
+  Created: 2017-10-02
+  License: PD
+</pre>
+
+== Abstract ==
+
+This BIP describes the construction of a 32-byte hash that is uniquely defined for a UTXO set, that is, the set of all 
+unspent transaction outputs that exist at a certain block in the blockchain. This BIP does not describe 
+inclusion of such hash in the coinbase, or changes to block verification.
+
+== Motivation ==
+
+When added to blocks, A UTXO commitment can be used to:
+
+* Fast initial loading of a full node by downloading and verifying the UTXO set instead of the full blockchain.
+* Downloading and verifying a part of the UTXO set that matches certain outputs.
+* Proofing existence of a UTXO at a certain block.
+* Proofing non-existence of a UTXO at a certain block.
+
+Generally, two approaches can be identified in defining a UTXO commitment. 
+
+Either we construct a storage format for the UTXO set which allows extraction of a deterministic, unique hash. 
+The challege is to define the format such, that it does not have significantly worse perfomance charactistics than a generalized
+key/value store.
+
+Or we can define a UTXO commitment which must be maintained alongside the UTXO database. The challange is to ensure that maintaining 
+the commitment does not impose to much ''additional'' burden.
+
+This proposal takes the latter approach. We use Elliptic Curve Multisets to maintain sets of UTXO's and hash these into a prefix tree,
+with a fixed branch size of 16.
+
+== Specification ==
+
+=== Commitment tree ===
+
+We specify the construction of tree that contains a set of elements, each of which is sequence of at least 32 bytes.
+
+We define:
+
+* A ''node'' is either a ''branch node'' or a ''leaf node''. Each node has a unique bit sequence called the ''prefix''
+* The ''root node'' is a branch node with an empty prefix.
+* For each branch node, we define 16 child nodes numbered 0 to 15, each of which has the same prefix as the parent, extended by 4 bits encoding its number. A leaf node has no child nodes.
+* A node ''contains'' an element if the element starts with the prefix.
+* The ''hash'' of a leaf node is the 32-byte ECMH multiset hash of each of the elements it contains.
+* The ''hash'' of a branch node is the 32-byte double-SHA256 of the concatenation of the 16 hashes of its child nodes.
+
+Now, we define the tree to be ''normalized'' if:
+* Each branch node is either the root node, or contains at least 2001 elements.
+* Each leaf node contains at most 2000 elements.
+
+The ''commitment'' of a set of elements is the hash of the root node of the normalized tree that contains the set of elements. 
+It follows from above defininions that the commitment is uniquely and deterministically defined by the set of elements, but 
+uneffected by the order of the elements.
+
+=== UTXO Commitment ===
+
+We define a UTXO element as the byte sequence contructed from an unspent output using the serialization:
+
+{|class="wikitable"
+! Field Size !! Description !! Data type !! Comments
+|-
+| 32 || txid || char[32] || The id of the transaction
+|-
+| 4 || index || uint32_t || The index of the output within the transaction
+|-
+| 8 || value || int64_t || The amount in satoshi
+|-
+| ? || pk_script || uchar[] || The Bitcoin script that defines the conditions to claim this output.
+|}
+
+Note that the serialization is not compressed, but compression can be used in transferring UTXO sets and proofs.
+
+The UTXO commitment for a certain block is the commitment of all UTXO elements that are unspent in the blockchain ''after'' that block.
+
+=== FixMe ===
+
+The tree as specified requires the elements to approximate a random distribution. The UTXO elements are unfortunately not, as a single 
+transaction with lots of outputs all share the same first 32 bytes. There are several solutions from which we must choose:
+
+* We can use the serializion H(txid+index)+value+pk_script. This would also require the use of H(txid+index) for the coins database which could harm performance.
+* We can replace the threshold for splitting a branch node to state that a leaf node must contain 2000 elements ''or'' its parent must contain at most 16000 elements
+* We can add UTXO elements as specified but *count* only distinct transaction ids.
+
+=== Implementation ===
+
+==Copyright==
+This document is placed in the public domain.
+
