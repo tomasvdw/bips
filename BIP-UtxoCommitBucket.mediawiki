@@ -36,7 +36,7 @@ This proposal takes the latter approach. We use Elliptic Curve Multisets to main
 
 === Commitment tree ===
 
-We specify the construction of tree that contains a set of elements, each of which is sequence of at least 32 bytes.
+We specify the construction of a tree that contains a set of elements, each of which is a sequence of at least 32 bytes.
 
 We define:
 
