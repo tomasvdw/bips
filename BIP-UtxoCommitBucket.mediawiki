@@ -14,12 +14,12 @@ inclusion of such hash in the coinbase, or changes to block verification.
 
 == Motivation ==
 
-When added to blocks, A UTXO commitment can be used to:
+When added to blocks, a UTXO commitment can be used to:
 
 * Fast initial loading of a full node by downloading and verifying the UTXO set instead of the full blockchain.
 * Downloading and verifying a part of the UTXO set that matches certain outputs.
-* Proofing existence of a UTXO at a certain block.
-* Proofing non-existence of a UTXO at a certain block.
+* Proving existence of a UTXO at a certain block.
+* Proving non-existence of a UTXO at a certain block.
 
 Generally, two approaches can be identified in defining a UTXO commitment. 
 
@@ -30,8 +30,7 @@ key/value store.
 Or we can define a UTXO commitment which must be maintained alongside the UTXO database. The challange is to ensure that maintaining 
 the commitment does not impose to much ''additional'' burden.
 
-This proposal takes the latter approach. We use Elliptic Curve Multisets to maintain sets of UTXO's and hash these into a prefix tree,
-with a fixed branch size of 16.
+This proposal takes the latter approach. We use Elliptic Curve Multisets to maintain sets of UTXO's and hash these into a prefix tree, with a fixed branch size of 16.
 
 == Specification ==
 
@@ -68,7 +67,7 @@ We define a UTXO element as the byte sequence contructed from an unspent output 
 |-
 | 4 || index || uint32_t || The index of the output within the transaction
 |-
-| 4 || height_is coinbase || uint32_t || The least signaficant bit is set if this is a coinbase output. The other 31 bits represent the height
+| 4 || height, is_coinbase || uint32_t || The least signaficant bit is set if this is a coinbase output. The other 31 bits represent the height
 |-
 | 8 || value || int64_t || The amount in satoshi
 |-
@@ -96,14 +95,15 @@ Proposed implementation of the UTXO commitment: https://github.com/tomasvdw/bitc
 
 === Results ===
 
-Implementation results (Core i7 2 core 2.4ghz):
+Implementation results (T400, Core i7 2 core 2.4ghz):
 
 * Initial load 50 million elements: 310 secs.
 * Memory 50 million elements: 2.2mb
 * Proof size: ~100kb
-* Add block (10,000 utxo-ops): ms
+* Add block (10,000 utxo-ops): ~80ms
+* GetHash : ~180ms
 
-The vast majority of time is spend in the rudimentary multiset implementation which I hope can be further optimized.
+Block times aren't yet fast enough but the vast majority of time is spend in the rudimentary multiset implementation which I believe can be much further optimized.
 
 ==Copyright==
 
