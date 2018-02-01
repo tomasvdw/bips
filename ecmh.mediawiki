@@ -2,7 +2,7 @@
   BIP: Ecmh
   Title: Elliptic Curve Multiset definition
   Author: Tomas van der Wansem <tomas@bitcrust.org>
-  Created: 2017-10-02
+  Created: 2018-02-01
   License: PD
 </pre>
 
