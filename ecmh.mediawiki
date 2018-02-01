@@ -36,6 +36,7 @@ The multiset of an empty set is the 64-bit value of zero. The multiset of a non-
 
 === Notes ===
 
+* The verification step 2 of the algorithm succeeds ~50% of the time, so the algorithm loops on average ``e`` times.
 * The trivial implementation of the algorithm has no fixed runtime, and therefore does not attempt to hide the underlying data. It only cryptographically secures against finding sets a,b such that EMCH(a) == ECMH(b) and a != b.
 
 * Faster algorithms have been proposed but only for different (char-2) curves which have weaker security properties.
