@@ -21,11 +21,11 @@ We will use the secp256k1 elliptic curve <sup>[1]</sup>, and further refer to th
 
 The point for an empty set, P({}), is defined to be the infinity point of the curve.
 
-The point for a set with a single element P({d}) is calculated using the algorithm:
+The point for a set with a single element P({''d''}) is calculated using the algorithm:
 
-# Let ''x'' = SHA256(SHA256(d))
-# If ''x'' is an element of the field and (x, (x<sup>3</sup>+7)<sup>1/2</sup>) is a point on the curve, then P({d}) = (x, (x<sup>3</sup>+7)<sup>1/2</sup>)
-# Otherwise, let d = x and retry from 1.
+# Let ''x'' = SHA256(SHA256(''d''))
+# If ''x'' is an element of the field and ''x''<sup>3</sup>+7 is a quadratic residue, then P({''d''}) = (''x'', (''x''<sup>3</sup>+7)<sup>1/2</sup>)
+# Otherwise, let ''d'' = ''x'' and retry from 1.
 
 We define the point of the union of two sets ''A'',''B'' using the group operation of the curve:
 
