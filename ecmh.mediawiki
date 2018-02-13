@@ -88,11 +88,11 @@ https://github.com/tomasvdw/secp256k1/tree/multiset/src/modules/multiset
     EC(d3) = (x,y) (77e629616c3c97cf738c1ccf5c9e9b86781aeb2da743f2c64041d2a231ebee69,ab28a7e1180a6282a93ed55fd8619d52e6369031585a435855c1edf34ec14014)
     M(d3) = SHA(EC(d3)) = 702d3be41a0dcfba9a482115864c428055c6520c6172a94b14aa2c2ec0094cd9
     
-    // ** Finding combinatiion M(d1,d2) = SHA(EC(d1,d2)) = SHA(EC(d1)+EC(d2))
+    // ** Finding combination M(d1,d2) = SHA(EC(d1,d2)) = SHA(EC(d1)+EC(d2))
     EC(d1,d2) = EC(d1)+EC(d2) = (x,y) = (1f10d60e54d860a7eb88026cfd57ac053c98de4a6b79b9d4cb4134da015adb60,94eedd42bdaf610011b7e3bd4d63d5fe7eccae1ac1d3b1d142aaab35d4069e77)
     M(d1,d2) = SHA(EC(d1,d2)) = 48098f4ca9bb5dac273e56316db6412369ed1fa8beb579570532d16347fefccc
     
-    // ** Finding combinatiion M(d1,d2,d3) = SHA(EC(d1,d2,d3)) = SHA(EC(d1,d2)+EC(d3))
+    // ** Finding combination M(d1,d2,d3) = SHA(EC(d1,d2,d3)) = SHA(EC(d1,d2)+EC(d3))
     EC(d1,d2,d3) = EC(d1,d2)+EC(d3) = (x,y) = (8e5044a809d2629ff587bebeb909f963dcaf824b636dd2a29f578d5107f23f6d,de3412269c695b6079c8149c252b4ef13ed6312bd89e24c7c99db11e90299251)
     M(d1,d2,d3) = SHA(EC(d1,d2,d3)) = 411cafe74b66d1b79ae41e632e0de1a3b7419a25dbf0a66a1f3b4d6eb6dcc3d2
 
