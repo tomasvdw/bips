@@ -49,6 +49,54 @@ An implementation of the algoritm can be found here:
 
 https://github.com/tomasvdw/secp256k1/tree/multiset/src/modules/multiset
 
+== Test Vectors ==
+    
+    
+    // ** Test-vectors d1,d2,d3. These are the serialized UTXO's from block 1,2,3 of mainnet:
+    
+    d1=982051fd1e4ba744bbbe680e1fee14677ba1a3c3540bf7b1cdb606e857233e0e000000000300f2052a0100000043410496b538e853519c726a2c91e61ec11600ae1390813a627c66fb8be7947be63c52da7589379515d4e0a604f8141781e62294721166bf621e73a82cbf2342c858eeac
+    d2=d5fdcc541e25de1c7a5addedf24858b8bb665c9f36ef744ee42c316022c90f9b000000000500f2052a010000004341047211a824f55b505228e4c3d5194c1fcfaa15a456abdf37f9b9d97a4040afc073dee6c89064984f03385237d92167c13e236446b417ab79a0fcae412ae3316b77ac
+    d3=44f672226090d85db9a9f2fbfe5f0f9609b387af7be5b7fbb7a1767c831c9e99000000000900f2052a0100000043410494b9d3e76c5b1629ecf97fff95d7a4bbdac87cc26099ada28066c6ff1eb9191223cd897194a08d0c2726c5747f1db49e8cf90e75dc3e3550ae9b30086f3cd5aaac
+    
+    // ** finding EC-point EC(d1) and Multiset Hash M(d1):
+    SHA(d1) = 7005f672e1f98653a213a6c9b4c15f67c223733af213ca9c21287a33dc01c6ce
+    // Trial 0 
+    x = SHA(00000000,SHA(d1)) = 7207de9bb4da04734a4c9ceb74e33189d600fbb8153c6e1a2ea2d80c080b6d99
+    // x^3+7 is not a quadratic residue
+    // Trial 1
+    x = SHA(01000000,SHA(d1)) = 77a4dad093cfb3e6b364547c35242637c95ab1681c80c24c420b8bf40d542b19
+    // x^3+7 is a quadratic residue
+    EC(d1) = (x,y) = (77a4dad093cfb3e6b364547c35242637c95ab1681c80c24c420b8bf40d542b19,c2ccde973e6c026b93087e455a3626b76b9dc8708fc8f30bc763cf20389c1dea)
+    M(d1) = SHA(EC(d1)) = 5e294984c0b6ff1c897bdbb6f7cf3ef801e2f13bc73428aacdf8cb8d3bd2f0e5
+    
+    // ** finding EC-point EC(d2) and Multiset Hash M(d2):
+    SHA(d2) = cb4c8633c4bf0b384a39da7f82f0d417ffedf593f80bd3506257a14a1335c718
+    // Trial 0
+    x = SHA(00000000,SHA(d2)) = 543d39048f66fa55184fe2fb26d9307a36e838bfdc4c8fbab51850a3e0ae6325
+    // x^3+7 is a quadratic residue
+    EC(d2) = (x,y) = (543d39048f66fa55184fe2fb26d9307a36e838bfdc4c8fbab51850a3e0ae6325,ab7387fe64e57fcce3b07791f4f68939e84c8a11216e6f67c66b2d2b17b25352)
+    M(d2) = SHA(EC(d2)) = 937080b66c2b372d353988d6c09222788f88a5130a1332ebc1495aa3a7fab4fb
+    
+    // ** finding EC-point EC(d3) and Multiset Hash M(d3):
+    SHA(d3) = d828d182fd5f9fd75de97146f2330f940ed9299c350599257850849a1fe5f411
+    // Trial 0
+    x = SHA(00000000,SHA(d3)) = 9cedbdcf2d2a8fdfcccbfc121f262f87dcd6e912adf028a04c03bbeef64c821b
+    // x^3+7 is not a quadratic residue
+    // Trial 1
+    x = SHA(01000000,SHA(d3)) = 77e629616c3c97cf738c1ccf5c9e9b86781aeb2da743f2c64041d2a231ebee69
+    // x^3+7 is a quadratic residue
+    EC(d3) = (x,y) (77e629616c3c97cf738c1ccf5c9e9b86781aeb2da743f2c64041d2a231ebee69,ab28a7e1180a6282a93ed55fd8619d52e6369031585a435855c1edf34ec14014)
+    M(d3) = SHA(EC(d3)) = 702d3be41a0dcfba9a482115864c428055c6520c6172a94b14aa2c2ec0094cd9
+    
+    // ** Finding combinatiion M(d1,d2) = SHA(EC(d1,d2)) = SHA(EC(d1)+EC(d2))
+    EC(d1,d2) = EC(d1)+EC(d2) = (x,y) = (1f10d60e54d860a7eb88026cfd57ac053c98de4a6b79b9d4cb4134da015adb60,94eedd42bdaf610011b7e3bd4d63d5fe7eccae1ac1d3b1d142aaab35d4069e77)
+    M(d1,d2) = SHA(EC(d1,d2)) = 48098f4ca9bb5dac273e56316db6412369ed1fa8beb579570532d16347fefccc
+    
+    // ** Finding combinatiion M(d1,d2,d3) = SHA(EC(d1,d2,d3)) = SHA(EC(d1,d2)+EC(d3))
+    EC(d1,d2,d3) = EC(d1,d2)+EC(d3) = (x,y) = (8e5044a809d2629ff587bebeb909f963dcaf824b636dd2a29f578d5107f23f6d,de3412269c695b6079c8149c252b4ef13ed6312bd89e24c7c99db11e90299251)
+    M(d1,d2,d3) = SHA(EC(d1,d2,d3)) = 411cafe74b66d1b79ae41e632e0de1a3b7419a25dbf0a66a1f3b4d6eb6dcc3d2
+
+
 ==Copyright==
 
 This document is placed in the public domain.
