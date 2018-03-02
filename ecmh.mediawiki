@@ -23,15 +23,16 @@ The point for an empty set, P({}), is defined to be the infinity point of the cu
 
 The point for a set with a single element P({''d''}) is calculated using the algorithm:
 
-# Let ''x'' = SHA256(SHA256(''d''))
+# Let ''n'' = 0
+# Let ''x'' be SHA256 of the concatenation of 64-bits little-endian encoding of ''n'' and SHA256(''d''), thus SHA256(''n'',SHA56(''d''))
 # If ''x'' is an element of the field and ''x''<sup>3</sup>+7 is a quadratic residue, then P({''d''}) = (''x'', (''x''<sup>3</sup>+7)<sup>1/2</sup>)
-# Otherwise, let ''d'' = ''x'' and retry from 1.
+# Otherwise, let increment ''n'' and continue from 2
 
 We define the point of the union of two sets ''A'',''B'' using the group operation of the curve:
 
 P(''A'' ∪ ''B'') = P(''A'') * P(''B'')
 
-The multiset of an empty set is the 64-bit value of zero. The multiset of a non-empty set is encoded as the 64-bit value that consists of the 32-byte little-endian x-coordinate followed by the 32-byte little-endian y-coordinate of its point on the curve.
+The multiset of an empty set is the 64-bit value of zero. The multiset of a non-empty set is SHA256 value of the 64-bit value composed of the 32-byte little-endian x-coordinate followed by the 32-byte little-endian y-coordinate of its point on the curve.
 
 
 === Notes ===
