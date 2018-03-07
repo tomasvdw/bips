@@ -96,7 +96,7 @@ https://github.com/tomasvdw/secp256k1/tree/multiset/src/modules/multiset
     // ** Finding combination M(d1,d2,d3) = SHA(EC(d1,d2,d3)) = SHA(EC(d1,d2)+EC(d3))
     EC(d1,d2,d3) = EC(d1,d2)+EC(d3) = (x,y) = (87c62d00781adb4112b3d11bac2c3b78db3e1a1f7b4b0141865ebde002026a6a,8a9f7d8bdafcdff2f81dedc2a7ced13282eae364e2b07f2dd7d5ad69416a723d)
     M(d1,d2,d3) = SHA(EC(d1,d2,d3)) = 47fbdff4767c32a4ea74ca4386590f6222ee8396b8b4f00ef56e9b4943f42493
-
+    
     Generate with https://github.com/tomasvdw/bitcoin-abc/commits/ecmh_dumpvectors
     
 
