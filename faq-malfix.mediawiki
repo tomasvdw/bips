@@ -53,7 +53,7 @@ minimizes the complications of the update.
 
 Tricky question. As a change minimalist I am not really in favour of fixing 
 malleability. It helps only the specific case of an chain multisig transaction
-with off chain dependent transactions. Although this may aid for example micropayment networks, many workarounds are possible wihtout changing the 
+with off chain dependent transactions. Although this may aid for example micropayment networks, many workarounds are possible without changing the 
 base layer.
 
 But the decision isn't mine or solely technical. There is clearly a lot
