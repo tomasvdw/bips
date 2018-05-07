@@ -27,7 +27,7 @@ Either we construct a storage format for the UTXO set which allows extraction of
 The challege is to define the format such, that it does not have significantly worse perfomance charactistics than a generalized
 key/value store.
 
-Or we can define a UTXO commitment which must be maintained alongside the UTXO database. The challange is to ensure that maintaining 
+Or we can define a UTXO commitment which must be maintained alongside the UTXO database. The challenge is to ensure that maintaining 
 the commitment does not impose to much ''additional'' burden.
 
 This proposal takes the latter approach. We use Elliptic Curve Multisets to maintain sets of UTXO's and hash these into a prefix tree, with a fixed branch size of 16.
@@ -67,7 +67,7 @@ We define a UTXO element as the byte sequence contructed from an unspent output 
 |-
 | 4 || index || uint32_t || The index of the output within the transaction
 |-
-| 4 || height, is_coinbase || uint32_t || The least signaficant bit is set if this is a coinbase output. The other 31 bits represent the height
+| 4 || height, is_coinbase || uint32_t || The least significant bit is set if this is a coinbase output. The other 31 bits represent the height
 |-
 | 8 || value || int64_t || The amount in satoshi
 |-
