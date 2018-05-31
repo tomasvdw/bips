@@ -2,7 +2,7 @@
   BIP: UtxoCommitment version 0
   Title: Bucketed Utxo Commitment
   Author: Tomas van der Wansem <tomas@bitcrust.org>
-  Created: 2017-10-02
+  Created: 2018-05-31
   License: PD
 </pre>
 
@@ -63,7 +63,7 @@ The UTXO commitment for block X ECMH commitment of the serialized UTXO set as de
 
 Block X ''contains a UTXO commitment version 0'' if its coinbase transaction has an output whose redeemScript consists of the 38 bytes
 
-* 0x80 (OP_RETURN)
+* 0x6a (OP_RETURN)
 * 0x24 (OP_PUSHDATA36)
 * 0x55 0x54 0x58 0x30 (MAGIC)
 * 32 byte hash
