@@ -1,0 +1,81 @@
+<pre>
+  BIP: UtxoCommitment version 0
+  Title: Bucketed Utxo Commitment
+  Author: Tomas van der Wansem <tomas@bitcrust.org>
+  Created: 2017-10-02
+  License: PD
+</pre>
+
+== Abstract ==
+
+This BIP describes the construction of a 32-byte hash that is uniquely defined for a UTXO set, that is, the set of all 
+unspent transaction outputs that exist at a certain block in the blockchain. It also includes a recommendation for its 
+inclusion in blocks.
+
+The recommended UTXO commitment is considered version 0. It is recommended to be included but is not verified as part
+of the block validation rules and is therefore purely informational.
+
+== Motivation ==
+
+Currently full nodes need to download all historical blocks in order to construct the current UTXO state. The UTXO state 
+is needed in order to verify incoming transactions. This proposal works towards a model where new full nodes can download
+only the UTXO state, and verify its correctness against recent blocks.
+
+The changes required to enable fast syncing can be divided in 4 stages:
+
+# Maintain and include an informational UTXO commitment in the coinbase.
+# Implement utxo/getutxo P2P messages to allow transfer of UTXO subsets
+# Verify the UTXO commitment as part of the block validation rules.
+# Implement a fast-syncing bootstrap method.
+
+This specification covers the first step.
+
+
+== Specification ==
+
+We define the UTXO set of a block X, as the set of all transaction outputs that are unspent ''before'' processing of 
+block X and for which
+
+* the redeemScript of the output is at most 10000 bytes.
+* the first byte of the redeemScript is not 0x80 (OP_RETURN).
+
+The serialized UTXO set is the set of byte sequences constructed by serializing each output of the UTXO set as:
+
+{|class="wikitable"
+! Field Size !! Description !! Data type !! Comments
+|-
+| 32 || txid || char[32] || The id of the transaction
+|-
+| 4 || index || uint32_t || The index of the output within the transaction
+|-
+| 4 || height, is_coinbase || VARINT || The least significant bit is set if this is a coinbase output. The other 31 bits represent the height
+|-
+| 8 || value || int64_t || The amount in satoshi
+|-
+| 4 || pk_script_len || VARINT || The size in bytes of pk_script
+|-
+| ? || pk_script || uchar[] || The Bitcoin script that defines the conditions to claim this output.
+|}
+
+Note that the serialization is not compressed, but compression can be used in transferring UTXO sets and proofs.
+
+The UTXO commitment for block X ECMH commitment of the serialized UTXO set as defined in [1].
+
+Block X ''contains a UTXO commitment version 0'' if its coinbase transaction has an output whose redeemScript consists of the 38 bytes
+
+* 0x80 (OP_RETURN)
+* 0x24 (OP_PUSHDATA36)
+* 0x55 0x54 0x58 0x30 (MAGIC)
+* 32 byte hash
+
+The UTXO commitment is a valid UTXO commitment version 0 if the hash equals the UTXO commitment for the block. If a block 
+contains an invalid UTXO commitment it should still be accepted, although the implementation may issue appropriate warnings.
+
+==References==
+
+[1] https://github.com/tomasvdw/bips/ecmh.mediawiki
+
+==Copyright==
+
+This document is placed in the public domain.
+
