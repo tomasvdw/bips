@@ -8,7 +8,7 @@
 
 == Abstract ==
 
-This BIP describes the construction of a multiset using elliptic curves. The multiset is a 64-byte value that is uniquely and determinstically
+This BIP describes the construction of a multiset using elliptic curves. The multiset is a 32-byte value that is uniquely and determinstically
 defined for a set of data elements, regardless of their order.
 
 This spec does not in itself propose changes but can be referenced by other specification that rely on ECMH.
@@ -32,7 +32,7 @@ We define the point of the union of two sets ''A'',''B'' using the group operati
 
 P(''A'' ∪ ''B'') = P(''A'') * P(''B'')
 
-The multiset of an empty set is the 64-bit value of zero. The multiset of a non-empty set is SHA256 value of the 64-bit value composed of the 32-byte little-endian x-coordinate followed by the 32-byte little-endian y-coordinate of its point on the curve.
+The multiset of an empty set is the 32-byte value of zero. The multiset of a non-empty set is SHA256 value of the 32-byte value composed of the 32-byte big-endian x-coordinate followed by the 32-byte big-endian y-coordinate of its point on the curve.
 
 
 === Notes ===
