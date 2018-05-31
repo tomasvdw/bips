@@ -37,7 +37,9 @@ We define the UTXO set of a block X, as the set of all transaction outputs that 
 block X and for which
 
 * the redeemScript of the output is at most 10000 bytes.
-* the first byte of the redeemScript is not 0x80 (OP_RETURN).
+* the first byte of the redeemScript is not 0x6a (OP_RETURN).
+
+Note that these criteria are included to prevent storing unspendable outputs, and match the current behaviour of implementations.
 
 The serialized UTXO set is the set of byte sequences constructed by serializing each output of the UTXO set as:
 
