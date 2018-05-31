@@ -73,7 +73,7 @@ contains an invalid UTXO commitment it should still be accepted, although the im
 
 ==References==
 
-[1] https://github.com/tomasvdw/bips/ecmh.mediawiki
+[1] https://github.com/tomasvdw/bips/blob/master/ecmh.mediawiki
 
 ==Copyright==
 
