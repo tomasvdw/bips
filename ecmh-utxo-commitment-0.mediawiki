@@ -61,7 +61,7 @@ The serialized UTXO set is the set of byte sequences constructed by serializing 
 
 Note that the serialization is not compressed, but compression can be used in transferring UTXO sets and proofs.
 
-The UTXO commitment for block X ECMH commitment of the serialized UTXO set as defined in [1].
+The UTXO commitment for block X is the ECMH commitment of the serialized UTXO set as defined in [1].
 
 Block X ''contains a UTXO commitment version 0'' if its coinbase transaction has an output whose redeemScript consists of the 38 bytes
 
