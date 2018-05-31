@@ -71,6 +71,10 @@ Block X ''contains a UTXO commitment version 0'' if its coinbase transaction has
 The UTXO commitment is a valid UTXO commitment version 0 if the hash equals the UTXO commitment for the block. If a block 
 contains an invalid UTXO commitment it should still be accepted, although the implementation may issue appropriate warnings.
 
+==Implementation==
+
+https://reviews.bitcoinabc.org/D1474
+
 ==References==
 
 [1] https://github.com/tomasvdw/bips/blob/master/ecmh.mediawiki
