@@ -8,31 +8,31 @@
 
 == Abstract ==
 
-This BIP describes the construction of a multiset using elliptic curves. The multiset is a 32-byte value that is uniquely and determinstically
+This BIP describes the construction of a multiset hash using elliptic curves, called ECMH. The ECMH is a 32-byte value that is uniquely and determinstically
 defined for a set of data elements, regardless of their order.
 
 This spec does not in itself propose changes but can be referenced by other specification that rely on ECMH.
 
 == Specification ==
 
-We find the 32-byte multiset value of a set of elements. The set can be of any size and the elements are binary sequences of any size. The order of the elements of the set does not matter. Duplicate elements are possible, such that {a} is distinct from {a,a}.
+We find the 32-byte ECMH value of a multiset of elements. The multiset can be of any size and the elements are binary sequences of any size. The order of the elements of the set does not matter. Duplicate elements are possible, such that {a} is distinct from {a,a}.
 
-We will use the secp256k1 elliptic curve <sup>[1]</sup>, and further refer to this as the curve, and its field as the field.  The ''point of a set'', P(''A''), is a point on the curve uniquelly defined for the set ''A'' as follows:
+We will use the secp256k1 elliptic curve <sup>[1]</sup>, and further refer to this as the curve, and its field as the field.  The ''point of a multiset'', P(''A''), is a point on the curve uniquelly defined for the multiset ''A'' as follows:
 
-The point for an empty set, P({}), is defined to be the infinity point of the curve.
+The point for an empty multiset, P({}), is defined to be the infinity point of the curve.
 
-The point for a set with a single element P({''d''}) is calculated using the algorithm:
+The point for a multiset with a single element P({''d''}) is calculated using the algorithm:
 
 # Let ''n'' = 0
 # Let ''x'' be SHA256 of the concatenation of 64-bits little-endian encoding of ''n'' and SHA256(''d''), thus SHA256(''n'',SHA256(''d''))
 # If ''x'' is an element of the field and ''x''<sup>3</sup>+7 is a quadratic residue, then P({''d''}) = (''x'', (''x''<sup>3</sup>+7)<sup>1/2</sup>)
 # Otherwise, increment ''n'' and continue from 2
 
-We define the point of the union of two sets ''A'',''B'' using the group operation of the curve:
+We define the point of the combination of two multisets ''A'',''B'' using the group operation of the curve:
 
 P(''A'' ∪ ''B'') = P(''A'') * P(''B'')
 
-The multiset of an empty set is the 32-byte value of zero. The multiset of a non-empty set is SHA256 value of the 64-byte value composed of the 32-byte big-endian x-coordinate followed by the 32-byte big-endian y-coordinate of its point on the curve.
+The ECMH of an empty multiset is the 32-byte value of zero. The ECMH of a non-empty set is SHA256 value of the 64-byte value composed of the 32-byte big-endian x-coordinate followed by the 32-byte big-endian y-coordinate of its point on the curve.
 
 
 === Notes ===
