@@ -1,6 +1,6 @@
 <pre>
-  BIP: UtxoCommitment version 0
-  Title: Bucketed Utxo Commitment
+  BIP: utxo-commitment-0
+  Title: UtxoCommitment version 0
   Author: Tomas van der Wansem <tomas@bitcrust.org>
   Created: 2018-05-31
   License: PD
